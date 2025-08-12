@@ -23,18 +23,6 @@ variable "azure_region" {
   type = string
 }
 
-variable "openwebui_oidc_tenant_id" {
-  type = string
-}
-
-variable "openwebui_oidc_client_id" {
-  type = string
-}
-
-variable "openwebui_oidc_client_secret" {
-  type = string
-}
-
 variable "vault_addr" {
   type = string
 }

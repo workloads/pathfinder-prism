@@ -19,18 +19,6 @@ variable "azure_region" {
   type = string
 }
 
-variable "openwebui_oidc_tenant_id" {
-  type = string
-}
-
-variable "openwebui_oidc_client_id" {
-  type = string
-}
-
-variable "openwebui_oidc_client_secret" {
-  type = string
-}
-
 variable "openwebui_api_key" {
   type = string
 }
@@ -88,9 +76,7 @@ job "web-upload-app" {
         AZURE_STORAGE_CONNECTION_STRING = var.azure_storage_connection_string
         UPLOAD_CONTAINER = "uploads"
         NEXT_PUBLIC_APP_URL = "http://${var.client_ip}:3000"
-        AZURE_TENANT_ID = var.openwebui_oidc_tenant_id
-        AZURE_CLIENT_ID = var.openwebui_oidc_client_id
-        AZURE_CLIENT_SECRET = var.openwebui_oidc_client_secret
+
       }
     }
   }

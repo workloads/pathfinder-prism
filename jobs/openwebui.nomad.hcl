@@ -19,22 +19,6 @@ variable "azure_region" {
   type = string
 }
 
-variable "openwebui_oidc_tenant_id" {
-  type = string
-}
-
-variable "openwebui_oidc_client_id" {
-  type = string
-}
-
-variable "openwebui_oidc_client_secret" {
-  type = string
-}
-
-variable "openwebui_api_key" {
-  type = string
-}
-
 job "openwebui" {
   type = "service"
 
@@ -87,21 +71,10 @@ job "openwebui" {
 
       env {
         # OpenWebUI Configuration
-        WEBUI_SECRET_KEY = var.openwebui_api_key
         WEBUI_AUTH = "True"
         WEBUI_URL = "http://${var.client_ip}:8080"
-        # ENABLE_OAUTH_SIGNUP = "True"
         ENABLE_LOGIN_FORM = "True"
         ENABLE_SIGNUP="True"
-
-        # OIDC Configuration
-        # WEBUI_AUTH_OIDC_ENABLED = "True"
-        # OAUTH_PROVIDER_NAME = "azure"
-        # OAUTH_CLIENT_ID = var.openwebui_oidc_client_id
-        # OAUTH_CLIENT_SECRET = var.openwebui_oidc_client_secret
-        # OPENID_PROVIDER_URL = "https://login.microsoftonline.com/${var.openwebui_oidc_tenant_id}/v2.0"
-        # OAUTH_SCOPES = "openid profile email"
-        # OPENID_REDIRECT_URI = "https://${var.client_ip}/auth/callback"
 
         # Ollama Configuration
         ENABLE_OLLAMA_API = "True"
@@ -112,12 +85,6 @@ job "openwebui" {
         AZURE_STORAGE_ENDPOINT = "https://${var.azure_storage_account}.blob.core.windows.net"
         AZURE_STORAGE_KEY = var.azure_storage_access_key
         AZURE_STORAGE_CONTAINER_NAME = "knowledge-base"
-
-        # RAG Content Extraction Engine Configuration
-        # CONTENT_EXTRACTION_ENGINE = "docling"
-        # DOCLING_SERVER_URL = "http://{{ range nomadService \"docling\" }}{{ .Address }}:{{ .Port }}{{ end }}"
-        # WEBUI_RAG_CONTENT_EXTRACTION_ENGINE_DESCRIBE_PICTURES = "True"
-        # WEBUI_RAG_CONTENT_EXTRACTION_ENGINE_PICTURE_DESCRIPTION_MODE = "local"
       }
 
       template {

@@ -90,24 +90,6 @@ output "azure_storage" {
   sensitive = true
 }
 
-# Azure AD OIDC Information
-output "azure_oidc" {
-  description = "Azure AD OIDC configuration"
-  value = {
-    openwebui = {
-      # client_id     = azuread_application.openwebui_oidc.client_id
-      # client_secret = azuread_service_principal_password.openwebui_oidc.value
-      tenant_id     = data.azurerm_client_config.current.tenant_id
-    }
-    web_upload = {
-      client_id     = azuread_application_registration.web_upload_oidc.client_id
-      client_secret = azuread_application_password.web_upload_oidc.value
-      tenant_id     = data.azurerm_client_config.current.tenant_id
-    }
-  }
-  sensitive = true
-}
-
 # Vault Information
 output "vault_ip" {
   description = "Vault cluster information"

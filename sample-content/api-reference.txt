@@ -33,6 +33,6 @@ File Processor API:
 - DELETE /cleanup - Clean up processed files
 
 Authentication:
-- OIDC flow with Azure AD
+- Managed identity for Azure resources
 - Bearer tokens for API access
 - Managed identity for Azure resources 

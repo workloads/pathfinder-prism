@@ -80,14 +80,6 @@ STORAGE_ACCOUNT=$(terraform output -json azure_storage | jq -r '.storage_account
 STORAGE_KEY=$(terraform output -json azure_storage | jq -r '.storage_account_key')
 STORAGE_CONNECTION_STRING=$(terraform output -json azure_storage | jq -r '.connection_string')
 
-# Get OIDC configuration
-OPENWEBUI_CLIENT_ID=$(terraform output -json azure_oidc | jq -r '.openwebui.client_id')
-OPENWEBUI_CLIENT_SECRET=$(terraform output -json azure_oidc | jq -r '.openwebui.client_secret')
-OPENWEBUI_TENANT_ID=$(terraform output -json azure_oidc | jq -r '.openwebui.tenant_id')
-
-WEB_UPLOAD_CLIENT_ID=$(terraform output -json azure_oidc | jq -r '.web_upload.client_id')
-WEB_UPLOAD_CLIENT_SECRET=$(terraform output -json azure_oidc | jq -r '.web_upload.client_secret')
-
 # Get client IP
 CLIENT_IP=$(terraform output -json nomad_clients | jq -r '.public_public_ips[0]')
 AZURE_REGION=$(terraform output -json nomad_servers | jq -r '.public_ips[0]' | cut -d'.' -f1-3)
@@ -170,10 +162,6 @@ nomad job run -var="azure_storage_account=$STORAGE_ACCOUNT" \
               -var="azure_storage_connection_string=$STORAGE_CONNECTION_STRING" \
               -var="client_ip=$CLIENT_IP" \
               -var="azure_region=$AZURE_REGION" \
-              -var="openwebui_oidc_tenant_id=$OPENWEBUI_TENANT_ID" \
-              -var="openwebui_oidc_client_id=$OPENWEBUI_CLIENT_ID" \
-              -var="openwebui_oidc_client_secret=$OPENWEBUI_CLIENT_SECRET" \
-              -var="openwebui_api_key=" \
               jobs/openwebui.nomad.hcl
 
 print_success "Phase 1 completed! Ollama and OpenWebUI are now running."
@@ -211,9 +199,6 @@ nomad job run -var="azure_storage_account=$STORAGE_ACCOUNT" \
               -var="azure_storage_connection_string=$STORAGE_CONNECTION_STRING" \
               -var="client_ip=$CLIENT_IP" \
               -var="azure_region=$AZURE_REGION" \
-              -var="openwebui_oidc_tenant_id=$OPENWEBUI_TENANT_ID" \
-              -var="openwebui_oidc_client_id=$OPENWEBUI_CLIENT_ID" \
-              -var="openwebui_oidc_client_secret=$OPENWEBUI_CLIENT_SECRET" \
               -var="openwebui_api_key=$OPENWEBUI_API_KEY" \
               -var="vault_addr=http://$VAULT_IP:8200" \
               -var="vault_token=$VAULT_TOKEN" \
@@ -228,9 +213,6 @@ nomad job run -var="azure_storage_account=$STORAGE_ACCOUNT" \
               -var="azure_storage_connection_string=$STORAGE_CONNECTION_STRING" \
               -var="client_ip=$CLIENT_IP" \
               -var="azure_region=$AZURE_REGION" \
-              -var="openwebui_oidc_tenant_id=$OPENWEBUI_TENANT_ID" \
-              -var="openwebui_oidc_client_id=$WEB_UPLOAD_CLIENT_ID" \
-              -var="openwebui_oidc_client_secret=$WEB_UPLOAD_CLIENT_SECRET" \
               -var="openwebui_api_key=$OPENWEBUI_API_KEY" \
               jobs/web-upload-app.nomad.hcl
 
@@ -248,9 +230,5 @@ echo
 echo "Azure Storage Account: $STORAGE_ACCOUNT"
 echo "Azure Region: $AZURE_REGION"
 echo
-echo "OIDC Configuration:"
-echo "  OpenWebUI Client ID: $OPENWEBUI_CLIENT_ID"
-echo "  Web Upload Client ID: $WEB_UPLOAD_CLIENT_ID"
-echo "  Tenant ID: $OPENWEBUI_TENANT_ID"
-echo
+
 print_success "Workshop deployment completed!" 
