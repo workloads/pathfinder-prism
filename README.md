@@ -1,9 +1,5 @@
 # AI pipeline demo
 
-A comprehensive demo for deploying an AI-powered document processing pipeline on Azure using HashiCorp Nomad. This guide provides clear instructions for setting up and managing the complete system.
-
-## Overview
-
 This demo demonstrates how to build a complete AI document processing system using Azure Infrastructure, HashiCorp Nomad for container orchestration, HashiCorp Vault for PII protection and secrets management, Ollama for local AI model inference, OpenWebUI for AI chat interface, DocLings for advanced document processing. The system creates a full-stack AI pipeline that can be deployed in under 30 minutes.
 
 ## Architecture
