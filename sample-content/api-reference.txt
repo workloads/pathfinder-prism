@@ -1,0 +1,38 @@
+API Reference for AI Pipeline Workshop
+
+Nomad API Endpoints:
+- GET /v1/status/leader - Get cluster leader
+- GET /v1/agent/self - Get agent information
+- GET /v1/jobs - List all jobs
+- POST /v1/jobs - Submit a new job
+- GET /v1/job/{job_name} - Get job details
+- DELETE /v1/job/{job_name} - Stop and purge a job
+
+Azure Blob Storage API:
+- PUT /{container}/{blob} - Upload blob
+- GET /{container}/{blob} - Download blob
+- DELETE /{container}/{blob} - Delete blob
+- GET /{container}?restype=container&comp=list - List blobs
+
+OpenWebUI API:
+- GET /api/v1/health - Health check
+- POST /api/v1/chat/completions - Chat completion
+- GET /api/v1/models - List available models
+- POST /api/v1/knowledge - Add to knowledge base
+
+Ollama API:
+- POST /api/pull - Pull a model
+- POST /api/generate - Generate text
+- POST /api/chat - Chat completion
+- GET /api/tags - List available models
+
+File Processor API:
+- GET /health - Health check
+- POST /process - Process a document
+- GET /status - Processing status
+- DELETE /cleanup - Clean up processed files
+
+Authentication:
+- OIDC flow with Azure AD
+- Bearer tokens for API access
+- Managed identity for Azure resources 
