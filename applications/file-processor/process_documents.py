@@ -692,7 +692,7 @@ def create_model_with_knowledge_base(knowledge_base_id: str, knowledge_base_name
         }
         
         # Create model name based on knowledge base name
-        model_name = f"{knowledge_base_name}-kb-agent"
+        model_name = f"{knowledge_base_name} Agent"
         model_id = f"kb-agent-{knowledge_base_id[:8]}"  # Use first 8 chars of KB ID for uniqueness
         
         payload = {
