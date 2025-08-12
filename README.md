@@ -6,6 +6,41 @@ This demo demonstrates how to build a complete AI document processing system usi
 
 The system operates through a series of connected steps. Users upload documents through a custom web app. Files are stored in Azure Blob Storage, which the file processor monitors continuously. The processor converts documents to markdown using DocLings, applies PII protection through Vault, and then stores the protected version in the processed container. The protected version also gets uploaded to OpenWebUI for knowledge base integration. Users can then interact with their documents through the AI interface powered by Ollama.
 
+### Virtual File Handling
+
+The file-processor includes enhanced capabilities for handling virtual files and directory structures in Azure Blob Storage:
+
+- **Virtual Directories**: Supports hierarchical folder structures created by blob names with forward slashes
+- **Automatic Detection**: Automatically detects and processes virtual file structures
+- **Knowledge Base Organization**: Automatically creates and organizes knowledge bases based on virtual paths
+- **Efficient Processing**: Handles files at multiple levels of nesting efficiently
+
+This enables organized storage patterns like:
+```
+uploads/
+├── documents/contracts/contract1.pdf
+├── reports/annual_report.pdf
+└── data/sales_data.csv
+```
+
+The processor automatically creates appropriate knowledge bases for each document category while maintaining efficient processing.
+
+### Knowledge Base Organization
+
+The system automatically creates and organizes knowledge bases based on virtual directory structure:
+
+- **Automatic Categorization**: Files are automatically organized into knowledge bases based on their virtual path
+- **Pre-defined Categories**: Common document types (contracts, reports, invoices, etc.) get dedicated knowledge bases
+- **Custom Categories**: Any directory name automatically gets its own knowledge base
+- **Intelligent Organization**: Related documents are grouped together for better search and retrieval
+
+**Example Organization:**
+- `uploads/contracts/contract1.pdf` → "Contracts Documents" knowledge base
+- `uploads/reports/annual_report.pdf` → "Reports Documents" knowledge base
+- `uploads/invoices/invoice1.pdf` → "Invoices Documents" knowledge base
+
+This provides automatic document organization without manual categorization, making the system scalable and maintainable.
+
 ```mermaid
 flowchart TD
     A["Custom Web App<br/>File Upload"] --> B["Azure Blob Storage<br/>uploads/"]

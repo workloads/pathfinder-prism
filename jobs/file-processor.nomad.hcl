@@ -82,8 +82,8 @@ job "file-processor" {
       }
 
       resources {
-        cpu    = 2000
-        memory = 4096
+        cpu    = 4000
+        memory = 8192
       }
 
       env {

@@ -82,6 +82,7 @@ output "azure_storage" {
       uploads        = azurerm_storage_container.uploads.name
       processed      = azurerm_storage_container.processed.name
       knowledge_base = azurerm_storage_container.knowledge_base.name
+
       nomad_data     = azurerm_storage_container.nomad_data.name
     }
     managed_identity_id           = azurerm_user_assigned_identity.workshop_storage_identity.id

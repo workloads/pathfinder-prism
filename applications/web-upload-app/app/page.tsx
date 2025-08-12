@@ -1,26 +1,48 @@
 import React from 'react'
 import FileUpload from './components/FileUpload'
+import { Badge } from '@/components/ui/badge'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Azure Nomad Workshop
+    <main className="min-h-screen bg-slate-50 p-4">
+      <div className="max-w-6xl mx-auto space-y-4">
+        {/* Header Section with Technical Specs */}
+        <div className="text-center space-y-3">
+          <h1 className="text-4xl font-normal text-slate-600 tracking-tight font-condensed leading-relaxed">
+            AI Document Pipeline
           </h1>
-          <p className="text-xl text-gray-600">
-            Upload documents to process with AI
+          <p className="text-base text-slate-500 max-w-2xl mx-auto font-sans leading-relaxed">
+            Create your own knowledge bases and organize documents by topic, project, or any criteria you choose
           </p>
+          
+          {/* Subtle Technical Specifications */}
+          <div className="flex flex-wrap justify-center gap-2 text-xs opacity-60">
+            <Badge variant="outline" className="px-2 py-1 text-xs bg-white/30 border-slate-200 text-slate-500">
+              PDF, DOCX, TXT, MD
+            </Badge>
+            <Badge variant="outline" className="px-2 py-1 text-xs bg-white/30 border-slate-200 text-slate-500">
+              OpenWebUI
+            </Badge>
+            <Badge variant="outline" className="px-2 py-1 text-xs bg-white/30 border-slate-200 text-slate-500">
+              IBM Granite
+            </Badge>
+            <Badge variant="outline" className="px-2 py-1 text-xs bg-white/30 border-slate-200 text-slate-500">
+              DocLings
+            </Badge>
+            <Badge variant="outline" className="px-2 py-1 text-xs bg-white/30 border-slate-200 text-slate-500">
+              Azure
+            </Badge>
+            <Badge variant="outline" className="px-2 py-1 text-xs bg-white/30 border-slate-200 text-slate-500">
+              Nomad
+            </Badge>
+            <Badge variant="outline" className="px-2 py-1 text-xs bg-white/30 border-slate-200 text-slate-500">
+              Vault
+            </Badge>
+          </div>
         </div>
         
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <FileUpload />
-        </div>
-        
-        <div className="mt-8 text-center text-gray-500">
-          <p>Documents will be processed and added to the OpenWebUI knowledge base</p>
-        </div>
+        {/* Main Content - Document Organization as Hero Section */}
+        <FileUpload />
       </div>
     </main>
   )
