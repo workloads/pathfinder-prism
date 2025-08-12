@@ -4,28 +4,24 @@ This demo demonstrates how to build a complete AI document processing system usi
 
 ## Architecture
 
-The system operates through a series of connected steps. Users upload documents through a custom web app. Files are stored in Azure Blob Storage, which triggers the file processor to convert documents to markdown using DocLings. The processor then applies PII protection through HashiCorp Vault using either the Enterprise Transform Engine or Open Source KV-based approach. The protected version is stored securely and updates the OpenWebUI knowledge base. Users can then interact with their documents through the AI interface powered by Ollama.
+The system operates through a series of connected steps. Users upload documents through a custom web app. Files are stored in Azure Blob Storage, which the file processor monitors continuously. The processor converts documents to markdown using DocLings, applies PII protection through Vault, and then stores the protected version in the processed container. The protected version also gets uploaded to OpenWebUI for knowledge base integration. Users can then interact with their documents through the AI interface powered by Ollama.
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Custom Web    │    │   Azure Blob    │    │   Azure Event   │
-│   App           │───▶│   Storage       │───▶│   Grid Trigger  │
-│   File Upload   │    │   (uploads/)    │    │                 │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-                                │                        │
-                                ▼                        ▼
-                       ┌─────────────────┐    ┌─────────────────┐
-                       │   Processed     │    │   File Processor│
-                       │   Container     │    │   Nomad Job     │
-                       │   (processed/)  │    │   (DocLings)    │
-                       └─────────────────┘    └─────────────────┘
-                                                        │
-                                                        ▼
-                       ┌─────────────────┐    ┌─────────────────┐
-                       │   OpenWebUI     │◀───│   Knowledge     │
-                       │                 │    │   Base Update   │
-                       │   + Ollama      │    │   (RAG Index)   │
-                       └─────────────────┘    └─────────────────┘
+```mermaid
+flowchart TD
+    A["Custom Web App<br/>File Upload"] --> B["Azure Blob Storage<br/>uploads/"]
+    C["File Processor<br/>Polling Loop"] --> B
+    C --> D["DocLings +<br/>Vault PII Protection"]
+    D --> E["Processed Container<br/>processed/"]
+    D --> F["OpenWebUI<br/>Knowledge Base RAG"]
+    F --> G["Ollama<br/>AI Models"]
+
+    style A fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
+    style B fill:#f3e5f5,stroke:#333,stroke-width:2px,color:#000
+    style C fill:#e8f5e8,stroke:#333,stroke-width:2px,color:#000
+    style D fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
+    style E fill:#f1f8e9,stroke:#333,stroke-width:2px,color:#000
+    style F fill:#fce4ec,stroke:#333,stroke-width:2px,color:#000
+    style G fill:#e0f2f1,stroke:#333,stroke-width:2px,color:#000
 ```
 
 ### Infrastructure components
