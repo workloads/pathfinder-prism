@@ -76,9 +76,6 @@ if [ ! -f "terraform.tfstate" ]; then
 fi
 
 # Get storage configuration
-# STORAGE_ACCOUNT=$(terraform output -json azure_storage | jq -r '.storage_account_name')
-# STORAGE_KEY=$(terraform output -json azure_storage | jq -r '.storage_account_key')
-# STORAGE_CONNECTION_STRING=$(terraform output -json azure_storage | jq -r '.connection_string')
 AZURE_STORAGE=$(terraform output -json azure_storage)
 STORAGE_ACCOUNT=$(echo $AZURE_STORAGE | jq -r '.storage_account_name')
 STORAGE_KEY=$(echo $AZURE_STORAGE | jq -r '.storage_account_key')
@@ -88,9 +85,6 @@ STORAGE_CONNECTION_STRING=$(echo $AZURE_STORAGE | jq -r '.connection_string')
 CLIENT_IP=$(terraform output -json nomad_clients | jq -r '.public_public_ips[0]')
 
 # Get Nomad configuration
-# NOMAD_ADDR=$(terraform output -json nomad_access | jq -r '.address' | sed 's|https://|http://|')
-# NOMAD_TOKEN=$(terraform output -json nomad_access | jq -r '.token')
-# NOMAD_REGION=$(terraform output -json nomad_access | jq -r '.region')
 NOMAD_ACCESS=$(terraform output -json nomad_access)
 NOMAD_ADDR=$(echo $NOMAD_ACCESS | jq -r '.address' | sed 's|https://|http://|')
 NOMAD_TOKEN=$(echo $NOMAD_ACCESS | jq -r '.token')
