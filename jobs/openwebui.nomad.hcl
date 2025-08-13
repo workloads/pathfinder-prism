@@ -15,10 +15,6 @@ variable "client_ip" {
   type = string
 }
 
-variable "azure_region" {
-  type = string
-}
-
 job "openwebui" {
   type = "service"
 

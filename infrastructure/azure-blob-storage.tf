@@ -28,25 +28,25 @@ resource "random_string" "storage_account_suffix" {
 # Storage containers for different data types
 resource "azurerm_storage_container" "uploads" {
   name                  = "uploads"
-  storage_account_id    = azurerm_storage_account.workshop_storage.id
+  storage_account_name  = azurerm_storage_account.workshop_storage.name 
   container_access_type = "blob"
 }
 
 resource "azurerm_storage_container" "processed" {
   name                  = "processed"
-  storage_account_id    = azurerm_storage_account.workshop_storage.id
+  storage_account_name  = azurerm_storage_account.workshop_storage.name 
   container_access_type = "blob"
 }
 
 resource "azurerm_storage_container" "knowledge_base" {
   name                  = "knowledge-base"
-  storage_account_id    = azurerm_storage_account.workshop_storage.id
+  storage_account_name  = azurerm_storage_account.workshop_storage.name 
   container_access_type = "blob"
 }
 
 resource "azurerm_storage_container" "nomad_data" {
   name                  = "nomad-data"
-  storage_account_id    = azurerm_storage_account.workshop_storage.id
+  storage_account_name  = azurerm_storage_account.workshop_storage.name 
   container_access_type = "blob"
 }
 

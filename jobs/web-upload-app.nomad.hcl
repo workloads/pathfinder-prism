@@ -15,10 +15,6 @@ variable "client_ip" {
   type = string
 }
 
-variable "azure_region" {
-  type = string
-}
-
 variable "openwebui_api_key" {
   type = string
 }

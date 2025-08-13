@@ -76,18 +76,25 @@ if [ ! -f "terraform.tfstate" ]; then
 fi
 
 # Get storage configuration
-STORAGE_ACCOUNT=$(terraform output -json azure_storage | jq -r '.storage_account_name')
-STORAGE_KEY=$(terraform output -json azure_storage | jq -r '.storage_account_key')
-STORAGE_CONNECTION_STRING=$(terraform output -json azure_storage | jq -r '.connection_string')
+# STORAGE_ACCOUNT=$(terraform output -json azure_storage | jq -r '.storage_account_name')
+# STORAGE_KEY=$(terraform output -json azure_storage | jq -r '.storage_account_key')
+# STORAGE_CONNECTION_STRING=$(terraform output -json azure_storage | jq -r '.connection_string')
+AZURE_STORAGE=$(terraform output -json azure_storage)
+STORAGE_ACCOUNT=$(echo $AZURE_STORAGE | jq -r '.storage_account_name')
+STORAGE_KEY=$(echo $AZURE_STORAGE | jq -r '.storage_account_key')
+STORAGE_CONNECTION_STRING=$(echo $AZURE_STORAGE | jq -r '.connection_string')
 
 # Get client IP
 CLIENT_IP=$(terraform output -json nomad_clients | jq -r '.public_public_ips[0]')
-AZURE_REGION=$(terraform output -json nomad_servers | jq -r '.public_ips[0]' | cut -d'.' -f1-3)
 
 # Get Nomad configuration
-NOMAD_ADDR=$(terraform output -json nomad_access | jq -r '.address' | sed 's|https://|http://|')
-NOMAD_TOKEN=$(terraform output -json nomad_access | jq -r '.token')
-NOMAD_REGION=$(terraform output -json nomad_access | jq -r '.region')
+# NOMAD_ADDR=$(terraform output -json nomad_access | jq -r '.address' | sed 's|https://|http://|')
+# NOMAD_TOKEN=$(terraform output -json nomad_access | jq -r '.token')
+# NOMAD_REGION=$(terraform output -json nomad_access | jq -r '.region')
+NOMAD_ACCESS=$(terraform output -json nomad_access)
+NOMAD_ADDR=$(echo $NOMAD_ACCESS | jq -r '.address' | sed 's|https://|http://|')
+NOMAD_TOKEN=$(echo $NOMAD_ACCESS | jq -r '.token')
+NOMAD_REGION=$(echo $NOMAD_ACCESS | jq -r '.region')
 
 cd ..
 
@@ -161,7 +168,6 @@ nomad job run -var="azure_storage_account=$STORAGE_ACCOUNT" \
               -var="azure_storage_access_key=$STORAGE_KEY" \
               -var="azure_storage_connection_string=$STORAGE_CONNECTION_STRING" \
               -var="client_ip=$CLIENT_IP" \
-              -var="azure_region=$AZURE_REGION" \
               jobs/openwebui.nomad.hcl
 
 print_success "Phase 1 completed! Ollama and OpenWebUI are now running."
@@ -198,7 +204,6 @@ nomad job run -var="azure_storage_account=$STORAGE_ACCOUNT" \
               -var="azure_storage_access_key=$STORAGE_KEY" \
               -var="azure_storage_connection_string=$STORAGE_CONNECTION_STRING" \
               -var="client_ip=$CLIENT_IP" \
-              -var="azure_region=$AZURE_REGION" \
               -var="openwebui_api_key=$OPENWEBUI_API_KEY" \
               -var="vault_addr=http://$VAULT_IP:8200" \
               -var="vault_token=$VAULT_TOKEN" \
@@ -212,7 +217,6 @@ nomad job run -var="azure_storage_account=$STORAGE_ACCOUNT" \
               -var="azure_storage_access_key=$STORAGE_KEY" \
               -var="azure_storage_connection_string=$STORAGE_CONNECTION_STRING" \
               -var="client_ip=$CLIENT_IP" \
-              -var="azure_region=$AZURE_REGION" \
               -var="openwebui_api_key=$OPENWEBUI_API_KEY" \
               jobs/web-upload-app.nomad.hcl
 
@@ -228,7 +232,6 @@ echo "  OpenWebUI: http://$CLIENT_IP:8080"
 echo "  Nomad UI: $NOMAD_ADDR"
 echo
 echo "Azure Storage Account: $STORAGE_ACCOUNT"
-echo "Azure Region: $AZURE_REGION"
 echo
 
 print_success "Workshop deployment completed!" 

@@ -19,10 +19,6 @@ variable "client_ip" {
   type = string
 }
 
-variable "azure_region" {
-  type = string
-}
-
 variable "vault_addr" {
   type = string
 }
