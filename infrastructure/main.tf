@@ -305,7 +305,6 @@ resource "azurerm_network_interface" "public_client_ni" {
 }
 
 # Server nodes
-
 resource "azurerm_subnet" "servers_subnet" {
   name                 = "${local.prefix}-servers-subnet"
   resource_group_name  = data.azurerm_resource_group.ai_dev.name

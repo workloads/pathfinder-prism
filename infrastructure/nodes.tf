@@ -92,18 +92,18 @@ resource "azurerm_linux_virtual_machine" "private_client" {
   }
 
   os_disk {
-    name                 = "${local.prefix}-private-client-osdisk-${count.index}"
+    name                 = "${local.prefix}-private-client-osdisk-${count.index}-0"
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
 
-  computer_name  = replace("${local.prefix}-private-client-${count.index}", "_", "-")
+  computer_name  = replace("${local.prefix}-private-client-${count.index}-0", "_", "-")
   admin_username = "ubuntu"
   admin_password = random_string.vm_password.result
   custom_data = (base64encode(templatefile("${path.module}/shared/data-scripts/user-data-client.sh", {
     domain            = var.domain
     datacenter        = var.datacenter
-    nomad_node_name   = "azure-private-client-${count.index}"
+    nomad_node_name   = "azure-private-client-${count.index}-0"
     nomad_agent_meta  = "isPublic=false,cloud=azure"
     region            = var.azure_location
     cloud_env         = "azure"

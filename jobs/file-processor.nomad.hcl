@@ -45,36 +45,14 @@ job "file-processor" {
     constraint {
       attribute = "${meta.isPublic}"
       operator  = "="
-      value     = "true"
-    }
-
-    network {
-      port "http" {
-        to = 8081
-        static = 8081
-      }
+      value     = "false"
     }
 
     task "file-processor" {
       driver = "docker"
-
-      service {
-        name = "file-processor"
-        port = "http"
-        provider = "nomad"
-
-        check {
-          type     = "http"
-          name     = "file-processor-health"
-          path     = "/health"
-          interval = "30s"
-          timeout  = "5s"
-        }
-      }
-
+      
       config {
         image = "im2nguyenhashi/file-processor:latest"
-        ports = ["http"]
       }
 
       resources {

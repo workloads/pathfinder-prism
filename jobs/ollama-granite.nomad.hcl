@@ -5,7 +5,7 @@ job "ollama" {
     constraint {
         attribute = "${meta.isPublic}"
         operator  = "="
-        value     = "true"
+        value     = "false"
     }
     
     count = 1
@@ -23,8 +23,8 @@ job "ollama" {
         name = "ollama-backend"
         port = "ollama"
         provider = "nomad"
-        address = "${meta.externalAddress}"
       }
+      
       config {
         image = "ollama/ollama"
         ports = ["ollama"]

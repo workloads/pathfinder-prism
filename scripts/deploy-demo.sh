@@ -54,7 +54,7 @@ wait_for_nomad_clients() {
 }
 
 # Check if we're in the right directory
-if [ ! -f "infrastructure/base.tf" ]; then
+if [ ! -f "infrastructure/main.tf" ]; then
     print_error "Please run this script from the ai-pipeline-nomad-vault directory"
     exit 1
 fi
@@ -149,12 +149,12 @@ print_status "Waiting for Ollama to be ready..."
 sleep 20
 
 # Deploy Docling for document extraction
-print_status "Deploying Docling for document extraction..."
-nomad job run jobs/docling.nomad.hcl
+# print_status "Deploying Docling for document extraction..."
+# nomad job run jobs/docling.nomad.hcl
 
 # # Wait for Docling to be ready
-print_status "Waiting for Docling to be ready..."
-sleep 20
+# print_status "Waiting for Docling to be ready..."
+# sleep 20
 
 # Deploy OpenWebUI
 print_status "Deploying OpenWebUI..."
