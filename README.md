@@ -19,7 +19,7 @@ terraform init
 terraform apply
 ```
 
-Deploy Vault to handle your secrets and PII protection by running Terraform from the vault directory.
+Deploy Vault to handle your secrets and PII protection by running Terraform from the `/vault` directory.
 
 ```bash
 cd ../vault

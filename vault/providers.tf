@@ -19,7 +19,7 @@ provider "azurerm" {
 provider "nomad" {
   address   = "http://${local.nomad_servers_public_ip}:4646"
   region    = var.domain
-  secret_id = var.nomad_mgmt_token
+  secret_id = local.nomad_mgmt_token
   ignore_env_vars = {
     "NOMAD_ADDR" : true,
     "NOMAD_TOKEN" : true,
