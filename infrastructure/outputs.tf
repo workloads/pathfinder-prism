@@ -83,7 +83,7 @@ output "azure_storage" {
       processed      = azurerm_storage_container.processed.name
       knowledge_base = azurerm_storage_container.knowledge_base.name
 
-      nomad_data     = azurerm_storage_container.nomad_data.name
+      nomad_data = azurerm_storage_container.nomad_data.name
     }
     managed_identity_id           = azurerm_user_assigned_identity.workshop_storage_identity.id
     managed_identity_principal_id = azurerm_user_assigned_identity.workshop_storage_identity.principal_id
@@ -94,5 +94,5 @@ output "azure_storage" {
 # Vault Information
 output "vault_ip" {
   description = "Vault cluster information"
-  value = azurerm_linux_virtual_machine.private_client_vault[0].public_ip_address
+  value       = azurerm_linux_virtual_machine.private_client_vault[0].public_ip_address
 }

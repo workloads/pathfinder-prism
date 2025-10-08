@@ -11,7 +11,7 @@ resource "azurerm_linux_virtual_machine" "server" {
   count                           = var.azure_server_count
   name                            = "${local.prefix}-server-${count.index}"
   location                        = var.azure_location
-  resource_group_name             = data.azurerm_resource_group.ai_dev.name
+  resource_group_name             = azurerm_resource_group.main.name
   size                            = var.azure_server_instance_type
   admin_username                  = "ubuntu"
   admin_password                  = random_string.vm_password.result
@@ -78,7 +78,7 @@ resource "azurerm_linux_virtual_machine" "server" {
 resource "azurerm_linux_virtual_machine" "private_client" {
   name                  = "${local.prefix}-private-client-${count.index}"
   location              = var.azure_location
-  resource_group_name   = data.azurerm_resource_group.ai_dev.name
+  resource_group_name   = azurerm_resource_group.main.name
   network_interface_ids = ["${element(azurerm_network_interface.private_client_ni.*.id, count.index)}"]
   size                  = var.azure_private_client_instance_type
   count                 = var.azure_private_client_count
@@ -127,7 +127,7 @@ resource "azurerm_linux_virtual_machine" "private_client" {
 resource "azurerm_linux_virtual_machine" "private_client_vault" {
   name                  = "${local.prefix}-private-client-vault-${count.index}"
   location              = var.azure_location
-  resource_group_name   = data.azurerm_resource_group.ai_dev.name
+  resource_group_name   = azurerm_resource_group.main.name
   network_interface_ids = ["${element(azurerm_network_interface.vault_client_ni.*.id, count.index)}"]
   size                  = var.azure_vault_instance_type
   count                 = var.azure_vault_client_count
@@ -178,7 +178,7 @@ resource "azurerm_linux_virtual_machine" "private_client_vault" {
 resource "azurerm_linux_virtual_machine" "public_client" {
   name                  = "${local.prefix}-public-client-${count.index}"
   location              = var.azure_location
-  resource_group_name   = data.azurerm_resource_group.ai_dev.name
+  resource_group_name   = azurerm_resource_group.main.name
   network_interface_ids = ["${element(azurerm_network_interface.public_client_ni.*.id, count.index)}"]
   size                  = var.azure_public_client_instance_type
   count                 = var.azure_public_client_count

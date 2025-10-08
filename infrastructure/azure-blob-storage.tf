@@ -3,7 +3,7 @@
 # Storage Account for workshop data
 resource "azurerm_storage_account" "workshop_storage" {
   name                     = random_string.storage_account_suffix.result
-  resource_group_name      = data.azurerm_resource_group.ai_dev.name
+  resource_group_name      = azurerm_resource_group.main.name
   location                 = var.azure_location
   account_tier             = "Standard"
   account_replication_type = "LRS"
@@ -28,32 +28,32 @@ resource "random_string" "storage_account_suffix" {
 # Storage containers for different data types
 resource "azurerm_storage_container" "uploads" {
   name                  = "uploads"
-  storage_account_name  = azurerm_storage_account.workshop_storage.name 
+  storage_account_id    = azurerm_storage_account.workshop_storage.id
   container_access_type = "blob"
 }
 
 resource "azurerm_storage_container" "processed" {
   name                  = "processed"
-  storage_account_name  = azurerm_storage_account.workshop_storage.name 
+  storage_account_id    = azurerm_storage_account.workshop_storage.id
   container_access_type = "blob"
 }
 
 resource "azurerm_storage_container" "knowledge_base" {
   name                  = "knowledge-base"
-  storage_account_name  = azurerm_storage_account.workshop_storage.name 
+  storage_account_id    = azurerm_storage_account.workshop_storage.id
   container_access_type = "blob"
 }
 
 resource "azurerm_storage_container" "nomad_data" {
   name                  = "nomad-data"
-  storage_account_name  = azurerm_storage_account.workshop_storage.name 
+  storage_account_id    = azurerm_storage_account.workshop_storage.id
   container_access_type = "blob"
 }
 
 # User-assigned managed identity for secure storage access
 resource "azurerm_user_assigned_identity" "workshop_storage_identity" {
   name                = "${local.prefix}-workshop-storage-identity"
-  resource_group_name = data.azurerm_resource_group.ai_dev.name
+  resource_group_name = azurerm_resource_group.main.name
   location            = var.azure_location
 }
 
@@ -69,4 +69,4 @@ resource "azurerm_role_assignment" "storage_account_contributor" {
   scope                = azurerm_storage_account.workshop_storage.id
   role_definition_name = "Storage Account Contributor"
   principal_id         = azurerm_user_assigned_identity.workshop_storage_identity.principal_id
-} 
+}
