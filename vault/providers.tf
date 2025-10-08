@@ -3,11 +3,12 @@ terraform {
   required_providers {
     nomad = {
       source  = "hashicorp/nomad"
-      version = "2.3.1"
+      version = ">= 2.5.0, < 3.0.0"
     }
+
     terracurl = {
       source  = "devops-rob/terracurl"
-      version = "~> 2.0"
+      version = ">= 2.1.0, < 3.0.0"
     }
   }
 }
