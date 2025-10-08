@@ -81,16 +81,16 @@ resource "nomad_acl_policy" "nomad_user_policy" {
   depends_on = [azurerm_linux_virtual_machine.server, azurerm_public_ip.server_public_ip]
 
   rules_hcl = <<EOT
-agent { 
+agent {
     policy = "read"
-} 
+}
 
-node { 
-    policy = "read" 
-} 
+node {
+    policy = "read"
+}
 
-namespace "*" { 
-    policy = "read" 
+namespace "*" {
+    policy = "read"
     capabilities = ["submit-job", "dispatch-job", "read-logs", "read-fs", "alloc-exec"]
 }
 EOT
