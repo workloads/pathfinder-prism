@@ -178,7 +178,7 @@ resource "azurerm_linux_virtual_machine" "private_client_vault" {
 resource "azurerm_linux_virtual_machine" "public_client" {
   name                  = "${local.prefix}-public-client-${count.index}"
   location              = var.azure_location
-  resource_group_name   = data.azurerm_resource_group.ai_dev.name
+  resource_group_name   = azurerm_resource_group.main.name
   network_interface_ids = ["${element(azurerm_network_interface.public_client_ni.*.id, count.index)}"]
   size                  = var.azure_public_client_instance_type
   count                 = var.azure_public_client_count
