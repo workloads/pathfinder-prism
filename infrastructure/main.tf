@@ -1,11 +1,11 @@
-# NOTE: These must match the values set in /nomad/variables.hcl
-locals {
-  azure_resource_group_name = "ai_dev"
-  azure_location            = "eastus"
+resource "azurerm_resource_group" "main" {
+  name     = var.name_prefix
+  location = var.azure_location
 }
 
 data "azurerm_client_config" "current" {}
 data "azuread_client_config" "current" {}
+
 
 # Azure AD Application for Nomad auto-join
 resource "azuread_application_registration" "nomad_autojoin" {
@@ -39,11 +39,7 @@ resource "random_string" "vm_password" {
   special = false
 }
 
-data "azurerm_resource_group" "ai_dev" {
-  name = var.name_prefix
-}
-
-resource "azurerm_virtual_network" "ai_dev_vn" {
+resource "azurerm_virtual_network" "main" {
   name                = "${local.prefix}-vn"
   address_space       = ["10.0.0.0/16"]
   location            = var.azure_location
@@ -54,8 +50,8 @@ resource "azurerm_virtual_network" "ai_dev_vn" {
 
 resource "azurerm_subnet" "private_clients_subnet" {
   name                 = "${local.prefix}-private-clients-subnet"
-  virtual_network_name = azurerm_virtual_network.ai_dev_vn.name
   resource_group_name  = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = ["10.0.2.0/24"]
 }
 
@@ -196,8 +192,8 @@ resource "azurerm_network_interface" "vault_client_ni" {
 
 resource "azurerm_subnet" "public_clients_subnet" {
   name                 = "${local.prefix}-public-clients-subnet"
-  virtual_network_name = azurerm_virtual_network.ai_dev_vn.name
   resource_group_name  = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = ["10.0.3.0/24"]
 }
 
@@ -307,8 +303,8 @@ resource "azurerm_network_interface" "public_client_ni" {
 # Server nodes
 resource "azurerm_subnet" "servers_subnet" {
   name                 = "${local.prefix}-servers-subnet"
-  virtual_network_name = azurerm_virtual_network.ai_dev_vn.name
   resource_group_name  = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = ["10.0.1.0/24"]
 }
 

@@ -44,6 +44,7 @@ provider "nomad" {
   address   = "http://${azurerm_linux_virtual_machine.server[0].public_ip_address}:4646"
   region    = var.domain
   secret_id = random_uuid.nomad_mgmt_token.result
+
   ignore_env_vars = {
     "NOMAD_ADDR" : true,
     "NOMAD_TOKEN" : true,

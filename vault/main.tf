@@ -1,22 +1,22 @@
-# resource "hcp_hvn" "ai_dev" {
+# resource "hcp_hvn" "main" {
 #   hvn_id         = replace(var.name_prefix, "_", "-")
 #   cloud_provider = "azure"
 #   region         = var.azure_location
 #   cidr_block     = "10.0.0.0/20"
 # }
- 
-# resource "hcp_vault_cluster" "ai_dev" {
+
+# resource "hcp_vault_cluster" "main" {
 #   cluster_id      = replace(var.name_prefix, "_", "-")
-#   hvn_id          = hcp_hvn.ai_dev.hvn_id
+#   hvn_id          = hcp_hvn.main.hvn_id
 #   tier            = "dev"
 #   public_endpoint = true
 # }
- 
-# resource "hcp_vault_cluster_admin_token" "ai_dev" {
-#   cluster_id = hcp_vault_cluster.ai_dev.cluster_id
+
+# resource "hcp_vault_cluster_admin_token" "main" {
+#   cluster_id = hcp_vault_cluster.main.cluster_id
 # }
- 
-# resource "vault_mount" "transform_ai_dev" {
+
+# resource "vault_mount" "transform_main" {
 #   path = "transform/${replace(var.name_prefix, "_", "-")}"
 #   type = "transform"
 # }
@@ -34,7 +34,7 @@ resource "nomad_namespace" "vault" {
 # Deploy Vault cluster
 resource "nomad_job" "vault" {
   jobspec = file("${path.module}/../jobs/vault.nomad.hcl")
-  
+
   depends_on = [
     nomad_namespace.vault
   ]
@@ -53,7 +53,7 @@ resource "terracurl_request" "vault_init" {
   "secret_threshold": 1
 }
 EOF
-  
+
   max_retry      = 7
   retry_interval = 10
 
@@ -79,7 +79,7 @@ resource "nomad_variable" "vault_unseal_keys" {
 # Deploy Vault unsealer for automatic unsealing
 resource "nomad_job" "vault_unsealer" {
   jobspec = file("${path.module}/../jobs/vault-unsealer.nomad.hcl")
-  
+
   depends_on = [
     nomad_namespace.vault,
     nomad_variable.vault_unseal_keys,
@@ -139,11 +139,11 @@ resource "terracurl_request" "configure_jwt" {
     204
   ]
   url = "http://${local.vault_ip}:8200/v1/auth/jwt/config"
-  
+
   headers = {
     X-Vault-Token = jsondecode(terracurl_request.vault_init.response).root_token
   }
-  
+
   request_body = <<EOF
 {
   "jwks_url": "http://${local.nomad_servers_public_ip}:4646/.well-known/jwks.json",
@@ -166,7 +166,7 @@ EOF
 }
 
 # PII Protection Configuration
-# 
+#
 # This file now focuses on core Vault setup (JWT auth, etc.)
 # PII protection is implemented in separate files:
 #
