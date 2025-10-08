@@ -6,7 +6,7 @@ locals {
 # Prefix for resource names
 variable "name_prefix" {
   description = "The prefix used for all resources in this plan"
-  default     = "ai_dev"
+  default     = "techxchange"
 }
 
 # Random suffix for resource naming and AWS cloud auto-join
@@ -42,7 +42,12 @@ variable "azure_location" {
 
 variable "azure_resource_group_name" {
   description = "The Azure resource group name to use."
-  default     = "ai_dev"
+  default     = "techxchange"
+}
+
+variable "azure_subscription_id" {
+  type        = string
+  description = "Azure Subscription ID"
 }
 
 variable "azure_allowlist_ip" {

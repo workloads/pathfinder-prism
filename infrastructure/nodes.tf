@@ -11,7 +11,7 @@ resource "azurerm_linux_virtual_machine" "server" {
   count                           = var.azure_server_count
   name                            = "${local.prefix}-server-${count.index}"
   location                        = var.azure_location
-  resource_group_name             = data.azurerm_resource_group.ai_dev.name
+  resource_group_name             = azurerm_resource_group.main.name
   size                            = var.azure_server_instance_type
   admin_username                  = "ubuntu"
   admin_password                  = random_string.vm_password.result
