@@ -472,7 +472,7 @@ resource "azurerm_network_interface_security_group_association" "server_sg_assoc
 # OpenWebUI ingress rule for public clients
 resource "azurerm_network_security_rule" "public_clients_openwebui_ingress" {
   name                        = "${local.prefix}-public-clients-openwebui-ingress"
-  resource_group_name         = data.azurerm_resource_group.ai_dev.name
+  resource_group_name         = azurerm_resource_group.main.name
   network_security_group_name = azurerm_network_security_group.public_clients_security_group.name
 
   priority  = 220
@@ -489,7 +489,7 @@ resource "azurerm_network_security_rule" "public_clients_openwebui_ingress" {
 # OpenWebUI HTTPS ingress rule for public clients
 resource "azurerm_network_security_rule" "public_clients_openwebui_https_ingress" {
   name                        = "${local.prefix}-public-clients-openwebui-https-ingress"
-  resource_group_name         = data.azurerm_resource_group.ai_dev.name
+  resource_group_name         = azurerm_resource_group.main.name
   network_security_group_name = azurerm_network_security_group.public_clients_security_group.name
 
   priority  = 221
@@ -506,7 +506,7 @@ resource "azurerm_network_security_rule" "public_clients_openwebui_https_ingress
 # Web Upload App ingress rule for public clients
 resource "azurerm_network_security_rule" "public_clients_web_upload_ingress" {
   name                        = "${local.prefix}-public-clients-web-upload-ingress"
-  resource_group_name         = data.azurerm_resource_group.ai_dev.name
+  resource_group_name         = azurerm_resource_group.main.name
   network_security_group_name = azurerm_network_security_group.public_clients_security_group.name
 
   priority  = 222
@@ -523,7 +523,7 @@ resource "azurerm_network_security_rule" "public_clients_web_upload_ingress" {
 # File Processor ingress rule for private clients
 resource "azurerm_network_security_rule" "private_clients_file_processor_ingress" {
   name                        = "${local.prefix}-private-clients-file-processor-ingress"
-  resource_group_name         = data.azurerm_resource_group.ai_dev.name
+  resource_group_name         = azurerm_resource_group.main.name
   network_security_group_name = azurerm_network_security_group.private_clients_security_group.name
 
   priority  = 120
